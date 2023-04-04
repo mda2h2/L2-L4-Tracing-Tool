@@ -8,13 +8,12 @@ fi
 # Sender & receiver IP and MAC addresses : TO ADAPT !!!
 
 #####################
-sndmac=0x0a9c		# Last two octet of TCP sender MAC address e.g. 11:22:33:44:xx:yy
-rcvmac=0x0b7e		# Last two octet of TCP receiver MAC address e.g. 11:22:33:44:xx:yy
-sndip=0x01			# Last octet of the TCP sender's IP address e.g. 192.168.1.x		
-rcvip=0x0a 			# Last octet of the TCP receiver's IP address e.g. 192.168.1.x	
+sndmac=0x0a9c       # Last two octet of TCP sender MAC address e.g. 11:22:33:44:xx:yy
+rcvmac=0x0b7e       # Last two octet of TCP receiver MAC address e.g. 11:22:33:44:xx:yy
+sndip=0x01          # Last octet of the TCP sender's IP address e.g. 192.168.1.x		
+rcvip=0x0a          # Last octet of the TCP receiver's IP address e.g. 192.168.1.x	
 #####################
 
-			
 
 # Synchronization offsets are passed to python scripts : TO ADAPT !!
 # Please check ./capture.pcap file and compare with the values below for a hint of how offsets are measured
