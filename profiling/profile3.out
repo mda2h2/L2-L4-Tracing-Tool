@@ -1,0 +1,100 @@
+0
+0
+         43821414 function calls (41928386 primitive calls) in 39.240 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+68193/68191    4.551    0.000   30.173    0.000 packet.py:823(do_dissect)
+  4251887    2.860    0.000    6.701    0.000 fields.py:243(__getattr__)
+5868879/4325553    2.823    0.000    3.867    0.000 {built-in method builtins.getattr}
+  1520455    2.511    0.000    4.989    0.000 fields.py:1992(i2h)
+  1645667    2.028    0.000    9.186    0.000 packet.py:359(__getattr__)
+68333/14108    1.855    0.000   38.317    0.003 packet.py:126(__init__)
+  2948858    1.541    0.000    1.566    0.000 packet.py:388(__setattr__)
+  1645667    1.501    0.000    2.088    0.000 packet.py:349(getfield_and_val)
+  4437466    1.421    0.000    1.421    0.000 {built-in method builtins.isinstance}
+   771554    1.287    0.000    1.924    0.000 fields.py:1913(__getattr__)
+  1601462    1.119    0.000    2.318    0.000 fields.py:1975(_fixup_val)
+  1543437    1.045    0.000    1.531    0.000 fields.py:409(__getattr__)
+   255829    0.843    0.000    2.190    0.000 fields.py:1482(getfield)
+   785581    0.745    0.000   15.887    0.000 fields.py:231(getfield)
+   785581    0.726    0.000   13.833    0.000 fields.py:228(_evalcond)
+  1645809    0.586    0.000    0.586    0.000 packet.py:277(get_field)
+  1645667    0.546    0.000    0.546    0.000 fields.py:110(i2h)
+   502080    0.533    0.000    0.586    0.000 fields.py:1929(__setattr__)
+   167360    0.451    0.000    1.309    0.000 fields.py:1842(__init__)
+1291945/1291442    0.433    0.000    0.434    0.000 {built-in method builtins.len}
+   224770    0.412    0.000    0.685    0.000 fields.py:142(getfield)
+    34731    0.402    0.000    1.370    0.000 packet.py:881(guess_payload_class)
+  1139183    0.363    0.000    0.363    0.000 {method 'pop' of 'dict' objects}
+   743498    0.339    0.000    0.339    0.000 fields.py:1885(__nonzero__)
+   771556    0.338    0.000    0.338    0.000 {method 'index' of 'list' objects}
+136666/14108    0.317    0.000   38.360    0.003 base_classes.py:248(__call__)
+   771561    0.299    0.000    0.299    0.000 fields.py:1850(__int__)
+   444333    0.277    0.000    0.399    0.000 packet.py:892(<genexpr>)
+   226643    0.266    0.000    1.029    0.000 fields.py:154(do_copy)
+68333/68274    0.253    0.000    0.432    0.000 packet.py:199(do_init_cached_fields)
+   533779    0.244    0.000    0.244    0.000 {built-in method _struct.unpack}
+   213148    0.237    0.000    0.389    0.000 six.py:590(iteritems)
+68193/14029    0.202    0.000   35.446    0.003 packet.py:869(dissect)
+   212915    0.173    0.000    0.508    0.000 {built-in method builtins.all}
+   475212    0.164    0.000    0.164    0.000 fields.py:114(m2i)
+   178166    0.163    0.000    0.240    0.000 fields.py:1830(_fixvalue)
+68193/14030    0.150    0.000    9.178    0.001 packet.py:846(do_dissect_payload)
+68334/68333    0.143    0.000    0.176    0.000 packet.py:1520(__new__)
+    54164    0.141    0.000    0.289    0.000 packet.py:281(add_payload)
+    80950    0.126    0.000    1.002    0.000 fields.py:1989(m2i)
+   236823    0.117    0.000    0.123    0.000 packet.py:338(getfieldval)
+68333/68274    0.101    0.000    0.559    0.000 packet.py:176(init_fields)
+    14030    0.096    0.000   38.588    0.003 utils.py:1037(read_packet)
+68193/14030    0.088    0.000    0.117    0.000 packet.py:268(dissection_done)
+242191/242179    0.088    0.000    0.090    0.000 {built-in method builtins.hasattr}
+    28286    0.086    0.000    0.086    0.000 {method 'read' of '_io.BufferedReader' objects}
+    80954    0.080    0.000    0.634    0.000 fields.py:1942(copy)
+   213208    0.079    0.000    0.079    0.000 {built-in method builtins.iter}
+   221215    0.076    0.000    0.076    0.000 {method 'get' of 'dict' objects}
+   213710    0.074    0.000    0.074    0.000 {method 'items' of 'dict' objects}
+    42089    0.070    0.000    0.570    0.000 fields.py:417(getfield)
+    83955    0.065    0.000    0.065    0.000 {built-in method __new__ of type object at 0x909780}
+    14028    0.065    0.000    0.432    0.000 dot11.py:485(guess_payload_class)
+    14030    0.059    0.000    0.127    0.000 utils.py:968(read_packet)
+    56116    0.057    0.000    0.083    0.000 fields.py:1452(reverse)
+    27155    0.055    0.000    0.064    0.000 utils.py:413(str2mac)
+    14028    0.053    0.000    0.254    0.000 dot11.py:423(<lambda>)
+        1    0.051    0.051   38.748   38.748 sendrecv.py:763(_run)
+    64886    0.048    0.000    0.071    0.000 fields.py:195(__getattr__)
+    14029    0.048    0.000    0.282    0.000 dot11.py:261(<lambda>)
+    68194    0.048    0.000    0.048    0.000 packet.py:413(__delattr__)
+    68345    0.046    0.000    0.046    0.000 {built-in method time.time}
+    14028    0.045    0.000    0.852    0.000 dot11.py:528(guess_payload_class)
+    14029    0.043    0.000    0.252    0.000 dot11.py:270(<lambda>)
+    14029    0.043    0.000    0.246    0.000 dot11.py:321(<lambda>)
+    14029    0.043    0.000    0.252    0.000 dot11.py:282(<lambda>)
+    14029    0.043    0.000    0.252    0.000 dot11.py:276(<lambda>)
+    14028    0.042    0.000    0.242    0.000 dot11.py:417(<lambda>)
+    14029    0.042    0.000    0.247    0.000 dot11.py:297(<lambda>)
+    14029    0.042    0.000    0.248    0.000 dot11.py:288(<lambda>)
+    54164    0.042    0.000    0.069    0.000 packet.py:304(add_underlayer)
+    14029    0.042    0.000    0.246    0.000 dot11.py:327(<lambda>)
+    14028    0.042    0.000    0.250    0.000 dot11.py:348(<lambda>)
+    14029    0.042    0.000    0.245    0.000 dot11.py:309(<lambda>)
+    14029    0.042    0.000    0.245    0.000 dot11.py:303(<lambda>)
+    14029    0.042    0.000    0.247    0.000 dot11.py:291(<lambda>)
+    14029    0.042    0.000    0.246    0.000 dot11.py:333(<lambda>)
+    14028    0.042    0.000    0.243    0.000 dot11.py:402(<lambda>)
+    14028    0.041    0.000    0.246    0.000 dot11.py:336(<lambda>)
+    14028    0.041    0.000    0.242    0.000 dot11.py:455(<lambda>)
+    14028    0.041    0.000    0.245    0.000 dot11.py:351(<lambda>)
+    14028    0.041    0.000    0.242    0.000 dot11.py:405(<lambda>)
+    14028    0.041    0.000    0.243    0.000 dot11.py:375(<lambda>)
+    14028    0.041    0.000    0.245    0.000 dot11.py:345(<lambda>)
+    14028    0.041    0.000    0.243    0.000 dot11.py:458(<lambda>)
+    14028    0.041    0.000    0.242    0.000 dot11.py:339(<lambda>)
+    14029    0.041    0.000    0.245    0.000 dot11.py:315(<lambda>)
+    14028    0.041    0.000    0.245    0.000 dot11.py:372(<lambda>)
+    14028    0.041    0.000    0.242    0.000 dot11.py:471(<lambda>)
+    14028    0.041    0.000    0.244    0.000 dot11.py:411(<lambda>)
+    14028    0.041    0.000    0.242    0.000 dot11.py:438(<lambda>)
+    14028    0.041    0.000    0.244    0.000 dot11.py:384(<lambda>)
+    14028    0.041    0.000    0.241    0.000 dot11.py:408(<lambda>)
