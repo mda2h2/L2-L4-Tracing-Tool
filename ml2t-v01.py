@@ -13,45 +13,147 @@
               data-cf-poll, qos-data-cf-ack-poll, qos, qos-cf-poll and qos-cf-
               ack-poll.
 
+mlfilter= lambda r: (Dot11 in r and r[Dot11].type == 1 and\
+      r[Dot11].subtype == 9) or (TCP in r)
+
 """
 
-import sys
+import math
 from scapy.all import *
 from collections import namedtuple,defaultdict
 
+def getMacAckSeq(pkt):
+    return
+
+def tcp_segment_handler(pkt):
+    tmp = pkt[IP].payload
+    seq = tmp.seq
+    length = len(tmp.payload)
+
+    tcp_seg.timestamp.append(pkt.time)
+    tcp_seg.seq.append(seq+length-1)
+    tcp_seg.length.append(length)    
+
+def tcp_ack_handler(pkt):
+    tcp_ack.timestamp.append(pkt.time)
+    tcp_ack.seq.append(pkt[IP].payload.ack)    
+#   length = len(tmp.payload)
+
+def bitmap_hanlder(bitm):
+    last_rcv,rcv_count= 0,0
+    bytelist=[]
+    for byte in bitm:
+        b = '0'
+        if byte != 0: b= bin(byte)[2:].zfill(8)
+        bytelist.append(b)  
+        rcv_count+=int(math.log(byte+1,2))
+        while byte != 0:
+            byte = byte >> 1
+            last_rcv+=1
+    return (last_rcv,rcv_count,bytelist)
+
+def mac_ack_handler(pkt):
+    back = raw(pkt)[34:]
+    start_seq = int.from_bytes(back[2:4],byteorder='little') >> 4
+    bitm = back[4:]
+    last_rcv,rcv_count,bitmlist = bitmap_hanlder(bitm)
+
+    mac_ack.timestamp.append(pkt.time)
+    mac_ack.bitmap.append(bitmlist)
+    mac_ack.seq.append(start_seq)        
+    mac_ack.rcv_count.append(rcv_count)
+    mac_ack.last_rcv.append(start_seq+last_rcv-1)
+
 def packet_handler(pkt) :
-    if (Dot11 in pkt and pkt.type == 1 and pkt.subtype == 9):
-        acks.append(pkt)
-    if (TCP in pkt):
-         frames.append(pkt)
-         # Differentiate TCP sender and receiver
+    if IP in pkt and pkt[IP].proto == 6:
+        #all_frames.append(pkt)              
+        tmp=pkt[IP]
+        if tmp.src == sender.ip and tmp.payload.sport == sender.port:
+        # and tmp.addr2 == sender.mac 
+
+            # TCP segment
+            all_tcp_segments.append(pkt)    # TCP segments
+            tcp_segment_handler(pkt)
+
+            # MAC info
+            all_frames.append(pkt)          # all mac data frames
+            mac_frame.seq.append(pkt[Dot11].SC >> 4)
+            mac_frame.timestamp.append(pkt.time)
+           
+        elif tmp.src == receiver.ip and tmp.payload.dport == sender.port: 
+            # TCP acks
+            all_tcp_acks.append(pkt)        # TCP acks
+            tcp_ack_handler(pkt)
+ 
+    elif (Dot11 in pkt and pkt.type ==1 and pkt.subtype == 9 \
+          and pkt[Dot11].addr2=='04:ce:14:0b:7e:69'):
+        all_mac_acks.append(pkt)            # mac ack - block acks
+        mac_ack_handler(pkt)
+
+            
+Endpoint = namedtuple('tcp',['id','ip','mac','port'])
+TCP = namedtuple('tcp',['timestamp','seq','length'])
+MAC = namedtuple('mac',['timestamp','seq','bitmap','last_rcv','rcv_count'])
+
+tcp_seg = TCP([],[],[])
+tcp_ack = TCP([],[],[])
+mac_frame = MAC([],[],[],[],[])
+mac_ack   = MAC([],[],[],[],[])
+
+all_mac_acks=[]
+all_frames=[]
+all_tcp_segments=[]
+all_tcp_acks=[]
+
+sndip='192.168.100.1'
+rcvip='192.168.100.10'
+sndmac='04:ce:14:0a:9c:68'
+rcvmac='04:ce:14:0b:7e:69'
+sport=56706
+rport=5201
+
+sender = Endpoint('tx',sndip,sndmac,sport)
+receiver = Endpoint('rx',rcvip,rcvmac,rport)
 
 mfilter='(tcp or type ctl) and not \
             (subtype ps-poll or subtype rts or subtype cts or\
             subtype ack or subtype cf-end or subtype cf-end-ack)'              
 
-frames=[]
-acks=[]
+all = sniff(offline='pcap/original.pcap',filter=mfilter, prn=packet_handler)
 
-sndip='192.168.100.1'
-rcvip='192.168.100.100'
-sndmac='04:ce:14:0a:9c:68'
-rcvmac='04:ce:14:0b:7e:69'
+# shift by initial value and skip TCP handshake
+tmp = [s-tcp_seg.seq[0] for s in tcp_seg.seq]
+tcp_seg = tcp_seg._replace(seq=tmp[2:])
 
-Endpoint = namedtuple('tcp',['id','ip','mac'])
-sender = Endpoint('tx',sndip,sndmac)
-receiver = Endpoint('rx',rcvip,rcvmac)
+mac_frame = mac_frame._replace(seq=mac_frame.seq[2:])
 
-mlfilter= lambda r: (Dot11 in r and r[Dot11].type == 1 and\
-      r[Dot11].subtype == 9) or (TCP in r)
+tmp=[s-tcp_ack.seq[0] for s in tcp_ack.seq]
+tcp_ack=tcp_ack._replace(seq=tmp[1:])
 
-all = sniff(offline='pcap/original.pcap',\
-            #filter=mfilter, \
-            lfilter=mlfilter,\
-            prn=packet_handler)
+#print(tcp_ack.seq[:10])
+#print(tcp_seg.seq[:10])
+#print(mac_frame.seq[:10])
 
-print(len(acks))
-print(len(frames))
+print(len(mac_ack.seq))
+print(len(all_mac_acks))
 
-#for p in all:
-#    wrpcap('test.pcap',p,append=True)
+#print(hexdump(all_mac_acks[15]))
+print(mac_ack.seq[15])
+print(mac_ack.bitmap[15])
+print(mac_ack.last_rcv[15])
+print(mac_ack.rcv_count[15])
+
+for i in range(20):
+    print(i,':',mac_ack.seq[i],"-",mac_ack.last_rcv[i],"(",mac_ack.rcv_count[i],")",str(''.join(str(mac_ack.bitmap[i]))))
+
+#print(len(all_mac_acks))
+#print(len(all_frames))
+
+#print(len(all_mac_acks))
+#print(len(all_frames))
+#print(len(all_tcp_segments))
+#print(len(tcp_seg.timestamp))
+
+#for p in all_mac_acks:
+#    wrpcap('pcap/backs.pcap',p,append=True)
+

@@ -6,6 +6,7 @@ Options to add:
     If not found start with the first TCP seg we find (not S, SA or A)
 - A solution for offsets: identify first TCP seg, TCP ack and first block ack or MAC ack
 - rework each .py using scapy
+- make sure no duplicate IP exist
 
 version 0.1
 - fixed IP, capture exists already, load all file to memory
